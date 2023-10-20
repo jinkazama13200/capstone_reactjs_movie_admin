@@ -71,13 +71,18 @@ export default function Sidebar() {
       >
         <Toolbar sx={{ bgcolor: colorConfigs.sidebar.bgcolor }}>
           <div style={{ textAlign: "center", width: "100%" }}>
-            <img style={{ width: "50px", height: "100%" }} src={Logo} alt="" />
+            <img
+              onClick={() => navigate("/")}
+              style={{ width: "50px", height: "100%", cursor: "pointer" }}
+              src={Logo}
+              alt=""
+            />
           </div>
         </Toolbar>
         <Divider />
         <List>
           {/* //Movie Management */}
-          <ListItem  disablePadding>
+          <ListItem disablePadding>
             <ListItemButton onClick={() => navigate("/")}>
               <ListItemIcon>
                 <MovieIcon />
