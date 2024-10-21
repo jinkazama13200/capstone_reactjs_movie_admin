@@ -8,18 +8,18 @@ export async function getMovie(searchParams) {
         tenPhim: searchParams || undefined,
       },
     });
-    return res.data.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data.content;
+    throw error.response.data;
   }
 }
 
 export async function addMovie(movie) {
   try {
     const res = await fetcher.post("/api/QuanLyPhim/ThemPhimUploadHinh", movie);
-    return res.data.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data.content;
+    throw error.response.data;
   }
 }
 
@@ -30,9 +30,9 @@ export async function deleteMovie(movieId) {
         MaPhim: movieId,
       },
     });
-    return res.data.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data.content;
+    throw error.response.data;
   }
 }
 
@@ -43,27 +43,27 @@ export async function getMovieById(movieId) {
         MaPhim: movieId,
       },
     });
-    return res.data.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data.content;
+    throw error.response.data;
   }
 }
 
 export async function updateMovie(movie) {
   try {
     const res = await fetcher.post("/api/QuanLyPhim/CapNhatPhimUpload", movie);
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
 export async function getCinemaSystem() {
   try {
     const res = await fetcher.get("/api/QuanLyRap/LayThongTinHeThongRap");
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
@@ -77,18 +77,18 @@ export async function getTheaterById(id) {
         },
       }
     );
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
 export async function addShowTime(payload) {
   try {
     const res = fetcher.post("/api/QuanLyDatVe/TaoLichChieu", payload);
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
@@ -102,8 +102,8 @@ export async function getMoviesByPage(page, searchTerm) {
         soPhanTuTrenTrang: 3,
       },
     });
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }

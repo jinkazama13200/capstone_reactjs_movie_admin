@@ -54,6 +54,7 @@ export default function AddMovie() {
       formData.append("hinhAnh", movie.hinhAnh[0]);
       formData.append("sapChieu", movie.sapChieu);
       formData.append("hot", movie.hot);
+      console.log(formData);
       return addMovie(formData);
     },
     onSuccess: () => {
@@ -100,18 +101,18 @@ export default function AddMovie() {
   const sapChieuValue = watch("sapChieu");
   const dangChieuValue = watch("dangChieu");
   const hotValue = watch("hot");
-  const imgWatch = watch("hinhAnh");
+
+  const handleImgChange = (e) => {
+    const file = e.target.files[0];
+    file.preview = URL.createObjectURL(file);
+    setImgPreview(file);
+  };
 
   useEffect(() => {
-    // using useEffect call back when imgWatch changes the value
-    const file = imgWatch?.[0];
-    if (!file) return;
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = (e) => {
-      setImgPreview(e.target.result);
+    return () => {
+      imgPreview && URL.revokeObjectURL(imgPreview.preview);
     };
-  }, [imgWatch]);
+  }, [imgPreview]);
 
   if (error) {
     Store.addNotification({
@@ -254,8 +255,14 @@ export default function AddMovie() {
               alignItems: "center",
             }}
           >
-            <TextField type="file" {...register("hinhAnh")} />
-            {imgPreview && <img src={imgPreview} width={50} height={55} />}
+            <TextField
+              type="file"
+              {...register("hinhAnh")}
+              onChange={handleImgChange}
+            />
+            {imgPreview && (
+              <img src={imgPreview.preview} width={50} height={55} />
+            )}
           </div>
           <Button
             sx={{ mt: 2, width: 200 }}

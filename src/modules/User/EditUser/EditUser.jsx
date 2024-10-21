@@ -30,7 +30,7 @@ const editUserSchema = object({
   taiKhoan: string().required("Trường hợp bắt buộc."),
   matKhau: string().required("Trường hợp bắt buộc."),
   email: string().required("Trường hợp bắt buộc.").email("Email không hợp lệ."),
-  soDT: string().required("Trường hợp bắt buộc."),
+  // soDT: string().required("Trường hợp bắt buộc."),
   maNhom: string().required("Trường hợp bắt buộc."),
   maLoaiNguoiDung: string().required("Trường hợp bắt buộc."),
   hoTen: string().required("Trường hợp bắt buộc."),

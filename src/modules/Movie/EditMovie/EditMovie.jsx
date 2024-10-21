@@ -11,9 +11,9 @@ import {
   Typography,
   Paper,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { string, object } from "yup";
+import { string, object, mixed } from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getMovieById, updateMovie } from "../../../apis/movieAPI";
 import dayjs from "dayjs";
@@ -33,6 +33,8 @@ const editMovieSchema = object({
   danhGia: string()
     .required("Trường hợp bắt buộc.")
     .matches(/^(?:10|[0-9])$/, "Chỉ được đánh giá từ 0 đến 10."),
+}).shape({
+  hinhAnh: mixed().required("Trường hợp bắt buộc"),
 });
 
 export default function EditMovie() {
@@ -51,7 +53,7 @@ export default function EditMovie() {
       formData.append("maNhom", movie.maNhom);
       formData.append("ngayKhoiChieu", movie.ngayKhoiChieu);
       formData.append("danhGia", movie.danhGia);
-      formData.append("hinhAnh", movie.hinhAnh?.[0]);
+      formData.append("hinhAnh", movie.hinhAnh[0]);
       formData.append("dangChieu", movie.dangChieu);
       formData.append("sapChieu", movie.sapChieu);
       formData.append("hot", movie.hot);
@@ -75,7 +77,7 @@ export default function EditMovie() {
     },
   });
 
-  const { data: movieInfo = [], isLoading } = useQuery({
+  const { data: movieInfo = [] } = useQuery({
     queryKey: ["movieInfo", movieId],
     queryFn: () => getMovieById(movieId),
     enabled: !!movieId,
@@ -113,20 +115,21 @@ export default function EditMovie() {
   const sapChieuValue = watch("sapChieu");
   const dangChieuValue = watch("dangChieu");
   const hotValue = watch("hot");
-  const imgWatch = watch("hinhAnh");
 
-  // using useEffect call back when imgWatch changes the value
+  const handleImgChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      file.preview = URL.createObjectURL(file);
+      setImgPreview(file);
+    }
+  };
+
   useEffect(() => {
-    const file = imgWatch?.[0];
-    if (!file) return;
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = (e) => {
-      setImgPreview(e.target.result);
+    return () => {
+      imgPreview && URL.revokeObjectURL(imgPreview.preview);
     };
-  }, [imgWatch]);
+  }, [imgPreview]);
 
-  // USING USE EFFECT CALL BACK WHEN movieInfo data CHANGES THE VALUE
   useEffect(() => {
     if (movieInfo) {
       setValue("tenPhim", movieInfo.tenPhim);
@@ -140,6 +143,7 @@ export default function EditMovie() {
       setValue("sapChieu", movieInfo?.sapChieu);
       setValue("hot", movieInfo?.hot);
       setValue("maPhim", movieInfo?.maPhim);
+      setValue("hinhAnh", movieInfo?.hinhAnh);
       setImgPreview(movieInfo?.hinhAnh);
     }
   }, [movieInfo]);
@@ -295,8 +299,18 @@ export default function EditMovie() {
               alignItems: "center",
             }}
           >
-            <TextField type="file" {...register("hinhAnh")} />
-            {imgPreview && <img src={imgPreview} width={50} height={55} />}
+            <TextField
+              type="file"
+              {...register("hinhAnh")}
+              onChange={handleImgChange}
+            />
+            {imgPreview && (
+              <img
+                src={imgPreview.preview || imgPreview}
+                width={50}
+                height={55}
+              />
+            )}
           </div>
           <Button
             sx={{ mt: 2, width: 200 }}

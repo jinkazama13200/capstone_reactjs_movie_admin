@@ -9,22 +9,22 @@ export async function getUserByPage(page, searchTerm) {
           MaNhom: "GP09",
           soTrang: page,
           tuKhoa: searchTerm || undefined,
-          soPhanTuTrenTrang: 5,
+          soPhanTuTrenTrang: 10,
         },
       }
     );
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
 export async function userSignin(payload) {
   try {
     const res = await fetcher.post("/api/QuanLyNguoiDung/DangNhap", payload);
-    return res.data.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data.content;
+    throw error.response.data;
   }
 }
 
@@ -34,9 +34,9 @@ export async function addUser(payload) {
       "/api/QuanLyNguoiDung/ThemNguoiDung",
       payload
     );
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
@@ -46,9 +46,9 @@ export async function updateUser(payload) {
       "/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung",
       payload
     );
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
@@ -59,9 +59,9 @@ export async function deleteUser(userId) {
         TaiKhoan: userId,
       },
     });
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
 
@@ -73,8 +73,13 @@ export async function getUserById(userId) {
         tuKhoa: userId,
       },
     });
-    return res.data?.content;
+    return res.data;
   } catch (error) {
-    throw error.response.data?.content;
+    throw error.response.data;
   }
 }
+
+
+
+
+

@@ -27,7 +27,6 @@ export default function Signin() {
   const [showPassword, setShowpassword] = useState(false);
 
   const { currentUser, handleSignin: onSuccessSignin } = useUserContext();
-  console.log(currentUser);
 
   const {
     mutate: handleSignin,
