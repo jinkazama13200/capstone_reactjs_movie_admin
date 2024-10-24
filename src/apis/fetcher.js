@@ -10,10 +10,10 @@ const fetcher = axios.create({
 
 //REQUSEST INTERCEPTORs
 fetcher.interceptors.request.use((request) => {
-  const user = JSON.parse(localStorage.getItem("currentUser"));
-  if (user) {
-    request.headers.Authorization = `Bearer ${user.accessToken}`;
-  }
+  // const user = JSON.parse(localStorage.getItem("currentUser"));
+  // if (user) {
+  //   request.headers.Authorization = `Bearer ${user.accessToken}`;
+  // }
   return request;
 });
 
